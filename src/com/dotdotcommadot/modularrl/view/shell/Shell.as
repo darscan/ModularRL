@@ -1,5 +1,7 @@
 package com.dotdotcommadot.modularrl.view.shell
 {
+	import flash.utils.setTimeout;
+
 	import mx.controls.Alert;
 	import mx.core.IVisualElement;
 	import mx.events.ModuleEvent;
@@ -33,18 +35,20 @@ package com.dotdotcommadot.modularrl.view.shell
 			
 			moduleInfo.load( null, null, null, moduleFactory );
 		}
-		
-		private function onModuleLoaded( event : ModuleEvent ) : void 
+
+		private function onModuleLoaded( event : ModuleEvent ) : void
 		{
 			moduleInfo.removeEventListener( ModuleEvent.READY, onModuleLoaded);
 			moduleInfo.removeEventListener( ModuleEvent.ERROR, onModuleLoadError);
-			
-			moduleContainer.addElement( moduleInfo.factory.create() as IVisualElement );
-			
+
+			// Wait for the module to initialize before adding it
+			const module:IVisualElement =  moduleInfo.factory.create() as IVisualElement;
+			setTimeout(moduleContainer.addElement, 1, module);
+
 			moduleInfo = null;
 		}
-		
-		private function onModuleLoadError( event : ModuleEvent ) : void 
+
+		private function onModuleLoadError( event : ModuleEvent ) : void
 		{
 			moduleInfo.removeEventListener( ModuleEvent.READY, onModuleLoaded);
 			moduleInfo.removeEventListener( ModuleEvent.ERROR, onModuleLoadError);
