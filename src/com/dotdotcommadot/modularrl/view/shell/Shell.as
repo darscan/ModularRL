@@ -1,7 +1,5 @@
 package com.dotdotcommadot.modularrl.view.shell
 {
-	import flash.utils.setTimeout;
-
 	import mx.controls.Alert;
 	import mx.core.IVisualElement;
 	import mx.events.ModuleEvent;
@@ -41,9 +39,7 @@ package com.dotdotcommadot.modularrl.view.shell
 			moduleInfo.removeEventListener( ModuleEvent.READY, onModuleLoaded);
 			moduleInfo.removeEventListener( ModuleEvent.ERROR, onModuleLoadError);
 
-			// Wait for the module to initialize before adding it
-			const module:IVisualElement =  moduleInfo.factory.create() as IVisualElement;
-			setTimeout(moduleContainer.addElement, 1, module);
+			moduleContainer.addElement(moduleInfo.factory.create() as IVisualElement);
 
 			moduleInfo = null;
 		}
